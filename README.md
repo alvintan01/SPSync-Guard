@@ -19,7 +19,7 @@ You will also need MySQL running on the cloud server.
 
 
 ## Configurations
-The JSP site is meant to be running on the cloud server. The Django site is meant to be running on the Raspberry Pi. The Python scripts is meant to download the email attachments from Gmail's server and should be placed in a cron job on both the cloud server and Raspberry Pi.<br />
+The JSP site is meant to be running on tomcat on the cloud server. The Django site is meant to be running on the Raspberry Pi. The Python scripts is meant to download the email attachments from Gmail's server and should be placed in a cron job on both the cloud server and Raspberry Pi.<br />
 `decrypt.py` is meant to be running on the Raspberry Pi to decrypt files that are sent to it via SFTP at a faster rate. <br />
 `downloadattachmentpi3.py` is meant to be running on the Raspberry Pi download the email from Gmail's server. <br />
 `downloadattachmentserver3.py` is meant to be running on the cloud server download the email from Gmail's server. <br />

@@ -25,5 +25,5 @@ The JSP site is meant to be running on the cloud server. The Django site is mean
 `randomkeygenerator.py` is meant to be running on the cloud server to update the secret key that is used to secure the communication process.<br />
 
 The Sync folder contains the code for the Sync App which runs on the client's Windows computer. <br />
-The database dump file is meant to be imported to the cloud server's MySQL's database.<br />
+The database dump file is meant to be imported to the cloud server's MySQL's database.<br /><br />
 Do note that you will need to enter your Gmail's email address and password in the `settings.java`, `decrypt.py`, `downloadattachmentpi3.py` and `downloadattachmentserver3.py`. You will also need to change `<yourserverip>` to the IP of your cloud server in some of the files.

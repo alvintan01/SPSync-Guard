@@ -1,0 +1,218 @@
+{% extends "syncui/header.html" %}
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+<h2>View Files</h2>
+{% if entries|length == 0 %}
+	<h2> You have not backed up any files yet </h2>
+{% else %}
+    <button type="button" onclick="setDate()" class="btn btn-default" data-toggle="modal" data-target="#myModal_restore"><i class="glyphicon glyphicon-download-alt"></i> Restore All</button>
+    <p></p>
+    <div id="myModal_restore" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+                         <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Restore All</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" name="datetimeform" action="{{ url('download_file') }}">
+                        {{ csrf_input }}
+                        <input type="datetime-local" name="date" max="9999-12-31T23:59" placeholder="dd-mm-yyyy hh-mm-ss">
+                        <input type="hidden" name="field1" value="/media/USBHDD1/attachments/{{username}}/">
+                        <input type="hidden" name="field2" value="{{username}}">
+                        <input type="submit" class="btn btn-default" value="submit">
+                    </form>
+                </div>             
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <ul class="breadcrumb">
+            {% set no = 1 %}
+            {% if length == 0 %}
+                    <li class="active">C</li>
+            {% else %}
+            <form id="base_bread" class="browse" action="{{ url('view_file_new') }}" method="post">
+              {{ csrf_input }}
+              <input type="hidden" name="field1" value="/media/USBHDD1/attachments/{{username}}/">
+                      <li class="browse"><a href="#" onclick="document.getElementById('base_bread').submit();">C</a></li>
+            </form>
+                    {% set current = "/media/USBHDD1/attachments/{{username}}/" %}
+                    {% set current_1 = [] %}
+                    {% for i in base %}
+                            {% if loop.index != length %}
+                    <form id="{{i}}" class="browse" action="{{ url('view_file_new') }}" method="post">
+                        {{ csrf_input }}
+                        <input type="hidden" name="field1" value="/media/USBHDD1/attachments/{{username}}/{% for y in current_1 %}{{y}}/{% endfor %}{{i}}/">
+                        {% for x in current_1 %}
+                            <input type="hidden" name="field2" value="{{x}}">
+                        {% endfor %}
+                        <input type="hidden" name="field2" value="{{i}}">
+                                        <li class="browse"> / <a href="#" onclick="document.getElementById('{{i}}').submit();">{{i}}</a></li>
+                    </form>
+                                    {% if current_1.append(i) is none %}
+                    {% endif %}
+                            {% else %}
+                                    <li class="active browse">/ {{i}}</li>
+                            {% endif %}
+                    {% endfor %}
+            {% endif %}
+    </ul>
+
+    <table class="table" id="example">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size (Bytes)</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for n in entries %}
+                    {% if entries[n][0] == 'Folder' %}
+                            <tr>
+                                    {# "C:\Users\Darryl\Desktop\DISM modules\" is the base/starting directory of the file explorer it can be changed or be used as a variable containing the directory path same thing with the first entry of the breadcrumb #}
+                                    <td>
+                            <i class="glyphicon glyphicon-folder-close"></i>
+                            <form id="{{n}}" class="browse" action="{{ url('view_file_new') }}" method="post">
+                                {{ csrf_input }}
+                                <input type="hidden" name="field1" value="/media/USBHDD1/attachments/{{username}}/{% if length > 0 %}{%  for i in base %}{{i}}/{% endfor %}{% endif %}{{n}}/">
+                                {%  for i in base %}
+                                    <input type="hidden" name="field2" value="{{i}}">
+                                {% endfor %}
+                                <input type="hidden" name="field2" value="{{n}}">
+                                <a href="#" onclick="document.getElementById('{{n}}').submit();"> {{n}}</a>
+                            </form>
+                        </td> <!-- name-->
+                                    <td>{{entries[n][0]}}</td> <!--type-->
+                                    <td>{{entries[n][1]}}</td><!-- size-->
+                                    <td><button type="button" onclick="setDateFolder()" class="btn btn-default" data-toggle="modal" data-target="#{{entries[n][3]}}"><i class="glyphicon glyphicon-download-alt"></i> Download</button></td><!--option-->
+
+                       <div id="{{entries[n][3]}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                         <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">{{entries[n][2]}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url('download_file') }}" name="aa" method="post">
+                                            {{ csrf_input }}
+                                            <input type="datetime-local" name="date" max="9999-12-31T23:59" class="folderdate" placeholder="dd-mm-yyyy hh-mm-ss">
+                                            <input type="hidden" name="field1" value="{{cwd}}{{n}}">
+                                            <input type="hidden" name="field2" value="{{n}}">
+                                            <input type="submit" class="btn btn-default" value="submit">
+                                        </form>
+                                    </div>             
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                            </tr>
+                    {% else %}
+                            <tr>
+                                    <td><i class="glyphicon glyphicon-file"></i> {{n}}</td><!-- name-->
+                                    <td>{{entries[n][0]}}</td><!-- type-->
+                                    <td>{{entries[n][1]}}</td><!-- size-->
+                                    <td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#{{entries[n][3]}}"><i class="glyphicon glyphicon-download-alt"></i> Download</button></td><!-- option-->
+
+                        <div id="{{entries[n][3]}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                         <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">{{entries[n][2]}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                            {% for r in version[n] %}
+                                                <p>
+                                                    <form action="{{ url('download_file') }}" method="post">
+                                                        {{ csrf_input }}
+                                                        <input type="hidden" name="field1" value="{{cwd}}{{r}}" />
+                                                        <input type="hidden" name="field2" value="{{n}}"/>
+                                                        <input class="btn btn-default" role="button" type="submit" value="{{r}}"/>
+                                                    </form>
+                                                </p>
+                                            {% endfor %}
+                                    </div>             
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                            </tr>
+                    {% endif %}
+            {% endfor %}
+        </tbody>
+      </table>
+{% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script>
+  function setDate() {
+       var d = new Date();
+       var hr = d.getHours();
+       var min = d.getMinutes();
+       var date = d.getDate();
+       var month = d.getMonth()+1;
+       if (min < 10) {
+           min = "0" + min;
+       }
+       if (hr < 10) {
+	   hr = "0" + hr;
+       }
+       if (date < 10) {
+           date = "0" + date;
+       }
+       if (month < 10) {
+           month = "0" + month;
+       }
+       var x = document.forms["datetimeform"]["date"];
+       x.value = d.getFullYear()+"-"+month+"-"+date+"T"+hr+":"+min
+  }
+
+  var setDateFolder = function() {
+    
+       var d = new Date();
+       var hr = d.getHours();
+       var min = d.getMinutes();
+       var date = d.getDate();
+       var month = d.getMonth()+1;
+       if (min < 10) {
+           min = "0" + min;
+       }
+       if (hr < 10) {
+           hr = "0" + hr;
+       }
+       if (date < 10) {
+           date = "0" + date;
+       }
+       if (month < 10) {
+           month = "0" + month;
+       }
+       
+
+ $('.folderdate').each(function(index, value) {
+          this.value = d.getFullYear()+"-"+month+"-"+date+"T"+hr+":"+min;
+     });
+  };
+
+</script>
+{% endblock %}

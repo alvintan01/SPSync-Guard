@@ -1,0 +1,53 @@
+{% extends "syncui/header.html" %}
+{% block content %}
+<p><a href="{{ url('test') }}?field1=1&field1=2&field1=3">Go to test page</a></p>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+<div class="container"> 
+	<h1>Bootstrap 3 DataTables</h1> 
+	<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> 
+		<thead> 
+			<tr> 
+				<th>Name</th> 
+				<th>Position</th> 
+				<th>Office</th> 
+				<th>Salary</th> 
+			</tr>
+		</thead> 
+		<tbody> 
+			<tr> 
+				<td>Tiger Nixon</td>
+				<td>System Architect</td>
+				<td>Edinburgh</td>
+				<td>$320,800</td>
+			</tr>
+			<tr> 
+				<td>Garrett Winters</td>
+				<td>Accountant</td>
+				<td>Tokyo</td>
+				<td>$170,750</td>
+			</tr>
+			<tr> 
+				<td>Ashton Cox</td>
+				<td>Junior Technical Author</td>
+				<td>San Francisco</td>
+				<td>$86,000</td>
+			</tr>
+			<tr> 
+				<td>Cedric Kelly</td>
+				<td>Senior Javascript Developer</td>
+				<td>Edinburgh</td>
+				<td>$433,060</td>
+			</tr>
+		</tbody> 
+	</table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script>
+	$(document).ready(function() {
+  		$('#example').DataTable();
+	});
+</script>
+{% endblock %}

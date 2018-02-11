@@ -267,7 +267,8 @@ if(listOfFiles==null){
           <h4 class="modal-title"><%=actualfilepath%></h4>
         </div>
         <div class="modal-body">
-			<p>Available Files  <i class="glyphicon glyphicon-download-alt"></i></p><%
+			<p>Available Files  <i class="glyphicon glyphicon-download-alt"></i></p>
+			<%
 			if(downloadfilepath!=null){
 				int index=downloadfilepath.lastIndexOf('/');
 				String rootpath=downloadfilepath.substring(0,index);
@@ -277,10 +278,11 @@ if(listOfFiles==null){
 				String[] list = dir.list();
 				Arrays.sort(list);
 				%>
+			
 				 <%if (list.length > 0) {
 				for (int i = 0; i < list.length; i++) {
 				file = new java.io.File(rootpath +'/'+ list[i]);
-				if (file!= null && !file.isDirectory() && list[i].matches(filename+" [0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9] [0-9][0-9]-[0-9][0-9]-[0-9][0-9]"+fileextension) ) {
+				if (file!= null && !file.isDirectory() && list[i].matches(filename.replaceAll("\\(","\\\\(").replaceAll("\\)","\\\\)")+" [0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9] [0-9][0-9]-[0-9][0-9]-[0-9][0-9]"+fileextension) ) {
 				%> 
 							
 				 <form action="DownloadFile" method="post">

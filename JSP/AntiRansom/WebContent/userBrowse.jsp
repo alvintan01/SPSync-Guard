@@ -38,7 +38,7 @@ window.onload = setDate;
 
 <div class="container">
 <%
-String hardcodedpath = "/home/p1529364/attachments/";
+String hardcodedpath = "/home/server/attachments/";
 String username = (String)session.getAttribute("user");
 
 %>
@@ -205,9 +205,9 @@ if(listOfFiles==null){
     	}
       String actualdirectorypath = "";
       if(folderpath!=null){
-    	  actualdirectorypath = folderpath.replaceFirst("\\/home\\/p1529364\\/attachments\\/[^\\/]+\\/", "C:\\/");
+    	  actualdirectorypath = folderpath.replaceFirst("\\/home\\/server\\/attachments\\/[^\\/]+\\/", "C:\\/");
     	  if (actualdirectorypath.startsWith("/home")){
-        	  actualdirectorypath = folderpath.replaceFirst("\\/home\\/p1529364\\/attachments\\/[^\\/]+", "C:\\/");
+        	  actualdirectorypath = folderpath.replaceFirst("\\/home\\/server\\/attachments\\/[^\\/]+", "C:\\/");
     	  }
       }
       
@@ -247,7 +247,7 @@ if(listOfFiles==null){
       String fileextension="";
       String actualfilepath = "";
       if(downloadfilepath!=null){
-	  Pattern pattern = Pattern.compile("\\/home\\/p1529364\\/attachments\\/[^\\/]+(?:\\/(.+))?\\/(.+) [0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9] [0-9][0-9]-[0-9][0-9]-[0-9][0-9](?:(\\.[^.]+$)?)");
+	  Pattern pattern = Pattern.compile("\\/home\\/server\\/attachments\\/[^\\/]+(?:\\/(.+))?\\/(.+) [0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9] [0-9][0-9]-[0-9][0-9]-[0-9][0-9](?:(\\.[^.]+$)?)");
 	  Matcher matcher = pattern.matcher(downloadfilepath);
 	  while (matcher.find()) {
 		if(matcher.group(1)!=null){//null could happen for files under C root

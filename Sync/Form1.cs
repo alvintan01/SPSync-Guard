@@ -150,7 +150,7 @@ namespace Sync
                 folderpathlist.Add(Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString());//Download folder
                 Preference.salt = GenerateString(10);
 
-                DialogResult dialogResult = MessageBox.Show("Is this your first installation?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);         
+                DialogResult dialogResult = MessageBox.Show("Is this your first installation?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -169,7 +169,7 @@ namespace Sync
                     }
                     String userexist = "true";
 
-                    while(Preference.webuipassword == "" || Preference.webuipassword.Length < 8 || Preference.webuipassword != Preference.webuipassword2)
+                    while (Preference.webuipassword == "" || Preference.webuipassword.Length < 8 || Preference.webuipassword != Preference.webuipassword2)
                     {
                         Preference.webuipassword = promptinput("Enter password", "Enter a password to login at the WebUI.", true);
                         if (Preference.webuipassword == "" || Preference.webuipassword.Length < 8)
@@ -187,7 +187,8 @@ namespace Sync
                     while (Preference.usersecret == "" || userexist == "true" || userexist == "No internet" || Preference.usersecret.Length < 8 || Preference.usersecret != Preference.usersecret2)
                     {
                         Preference.usersecret = promptinput("Enter secretkey", "Enter a secretkey.", true);
-                        if (Preference.usersecret == "" || Preference.usersecret.Length < 8) {
+                        if (Preference.usersecret == "" || Preference.usersecret.Length < 8)
+                        {
                             MessageBox.Show("Please enter a valid secretkey. It must at least be 8 characters long.", "Enter secretkey", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             continue;
                         }
@@ -195,7 +196,7 @@ namespace Sync
                         if (Preference.usersecret != Preference.usersecret2)
                         {
                             MessageBox.Show("Secretkey does not match!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }                        
+                        }
                         else
                         {
                             userexist = SharedFunctions.createuser();
@@ -331,7 +332,7 @@ namespace Sync
                 listexcludedfiles.Items.Add(path);
             }
             populateextension();
-            
+
             contextMenu1 = new ContextMenu();
             menuItem1 = new MenuItem();
             menuItem2 = new MenuItem();
@@ -376,9 +377,9 @@ namespace Sync
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 string newfolderpath = folderBrowserDialog.SelectedPath;
-                if (!folderpathlist.Any(path => newfolderpath.Contains(path+"\\")) && !folderpathlist.Any(path => newfolderpath == path))
+                if (!folderpathlist.Any(path => newfolderpath.Contains(path + "\\")) && !folderpathlist.Any(path => newfolderpath == path))
                 {
-                    if (folderpathlist.Any(path => path.Contains(newfolderpath+"\\")))
+                    if (folderpathlist.Any(path => path.Contains(newfolderpath + "\\")))
                     {
                         List<String> toberemoved = new List<string>();
                         foreach (var a in folderpathlist)
@@ -478,14 +479,14 @@ namespace Sync
                 {
                     MessageBox.Show("Error! The excluded folder should be removed from the included folders.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-                else if (folderpathlist.Any(path => newexcludepath.Contains(path+"\\")) && !folderpathlist.Any(path => path == newexcludepath) && !excludefolderpathlist.Any(path => path == newexcludepath))
+                else if (folderpathlist.Any(path => newexcludepath.Contains(path + "\\")) && !folderpathlist.Any(path => path == newexcludepath) && !excludefolderpathlist.Any(path => path == newexcludepath))
                 {
-                    if (excludefolderpathlist.Any(path => newexcludepath.Contains(path+"\\")))
+                    if (excludefolderpathlist.Any(path => newexcludepath.Contains(path + "\\")))
                     {
                         MessageBox.Show("Error! The selected excluded folder is already excluded.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
-                    else if (excludefolderpathlist.Any(path => path.Contains(newexcludepath+"\\")))
-                    { 
+                    else if (excludefolderpathlist.Any(path => path.Contains(newexcludepath + "\\")))
+                    {
                         List<String> toberemoved = new List<string>();
                         foreach (var a in excludefolderpathlist)
                         {
@@ -526,15 +527,16 @@ namespace Sync
                 List<String> toberemoved2 = new List<string>();//check if new exluded folder is excluded in file path
                 foreach (var a in excludefilepathlist)
                 {
-                    if(excludefolderpathlist.Any(path => a.Contains(path))){
-                        
+                    if (excludefolderpathlist.Any(path => a.Contains(path)))
+                    {
+
                         foreach (var b in excludefilepathlist)
                         {
                             if (a.Contains(b))
                             {
                                 toberemoved2.Add(b);
                             }
-                        }                       
+                        }
                     }
                 }
                 foreach (var item in toberemoved2)
@@ -580,7 +582,7 @@ namespace Sync
             {
                 String filename = openFileDialog.FileName;
 
-                if (((folderpathlist.Any(path => filename.Contains(path+"\\")) && excludefolderpathlist.Any(path2 => filename.Contains(path2+"\\"))) || (!folderpathlist.Any(path => filename.Contains(path+"\\")) && !filepathlist.Any(path2 => filename == path2))))
+                if (((folderpathlist.Any(path => filename.Contains(path + "\\")) && excludefolderpathlist.Any(path2 => filename.Contains(path2 + "\\"))) || (!folderpathlist.Any(path => filename.Contains(path + "\\")) && !filepathlist.Any(path2 => filename == path2))))
                 {
                     filepathlist.Add(filename);
                     listfiles.Items.Add(filename);
@@ -610,11 +612,11 @@ namespace Sync
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 String filename = openFileDialog.FileName;
-                if(filepathlist.Any(path => filename==path))
+                if (filepathlist.Any(path => filename == path))
                 {
                     MessageBox.Show("Error! The excluded file should be removed from the included files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-                else if ((folderpathlist.Any(path => filename.Contains(path+"\\")) && !excludefolderpathlist.Any(path => filename.Contains(path+"\\"))) && !excludefilepathlist.Any(path => path == filename))
+                else if ((folderpathlist.Any(path => filename.Contains(path + "\\")) && !excludefolderpathlist.Any(path => filename.Contains(path + "\\"))) && !excludefilepathlist.Any(path => path == filename))
                 {
                     excludefilepathlist.Add(filename);
                     listexcludedfiles.Items.Add(filename);
@@ -668,7 +670,7 @@ namespace Sync
 
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
-            if(!Preference.closeform)
+            if (!Preference.closeform)
                 savesettings();
             if (Preference.usercloseform)
             {
@@ -936,7 +938,8 @@ namespace Sync
             {
                 //Get notifications
                 notificationtext.Clear();
-                if (notification == "") {
+                if (notification == "")
+                {
                     notification = "Ransomware Prevention Tips:" + Environment.NewLine + Environment.NewLine;
                     notificationtext.AppendText("Ransomware Prevention Tips:" + Environment.NewLine + Environment.NewLine);
                 }
@@ -961,7 +964,7 @@ namespace Sync
                         notificationtext.Clear();
                         notificationtext.AppendText("Ransomware Prevention Tips:" + Environment.NewLine + Environment.NewLine);
                         notification = "";
-                        notification = "Ransomware Prevention Tips:" + Environment.NewLine + Environment.NewLine;                        
+                        notification = "Ransomware Prevention Tips:" + Environment.NewLine + Environment.NewLine;
                     }
 
                     foreach (var a in jsonlist)
@@ -1079,7 +1082,7 @@ namespace Sync
                             String processname = a.ProcessName;
                             blackadminprocesslist.Add(processname);
                         }
-                    }                    
+                    }
                 }
 
                 //get usage
@@ -1121,8 +1124,8 @@ namespace Sync
                         }
                     }
                 }
-                 //update lastupdatetimestamp
-                 lastupdatetimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");//mysql uses this format
+                //update lastupdatetimestamp
+                lastupdatetimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");//mysql uses this format
             }
             catch (Exception e)
             {
@@ -1172,6 +1175,7 @@ namespace Sync
             else if (Preference.usage < 10 * 1024 * 1024 * 1024L)
             {
                 notifyIcon1.Icon = new Icon("sync.ico");
+                ransomware = false;
                 checkprocess();
                 if (zippathnotsent.Count != 0)
                 {
@@ -1193,7 +1197,6 @@ namespace Sync
                 filepath = getallfilepath();
                 var checkedextensionarray = extensioncheckbox.CheckedItems.Cast<string>().ToArray();
                 filepathtobackup = new List<string>();
-                ransomware = false;
                 emailsent = true;
                 nooffilechanged = 0;
                 unknownprocess = false;
@@ -1292,7 +1295,7 @@ namespace Sync
                         int count = 0;
                         lastsync = DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss");
                         String temppath = Preference.backupdirectory + "\\" + Preference.email + " " + lastsync + "tmp.zip";
-                        String attachmentpath = Preference.backupdirectory + "\\" + Preference.email + " " + lastsync+ ".sync";
+                        String attachmentpath = Preference.backupdirectory + "\\" + Preference.email + " " + lastsync + ".sync";
                         DirectoryInfo di = new DirectoryInfo(Preference.backupdirectory);
                         di.Create();
                         di.Attributes |= FileAttributes.Hidden;
@@ -1368,7 +1371,7 @@ namespace Sync
                                     }
 
                                     Directory.Delete(Preference.backupdirectory + "\\" + lastsync, true);
-                                    SharpAESCrypt.SharpAESCrypt.Encrypt(Preference.secretkey,temppath,attachmentpath);
+                                    SharpAESCrypt.SharpAESCrypt.Encrypt(Preference.secretkey, temppath, attachmentpath);
                                     File.Delete(temppath);
 
                                     FileInfo zipinfo = new FileInfo(attachmentpath);
@@ -1397,7 +1400,7 @@ namespace Sync
                                             var client = new SftpClient(Preference.piip, 22, Preference.piusername, Preference.pipassword);
                                             client.HostKeyReceived += delegate (object senders, HostKeyEventArgs key)
                                             {
-                                                Console.WriteLine(BitConverter.ToString(key.FingerPrint).Replace("-",":"));
+                                                Console.WriteLine(BitConverter.ToString(key.FingerPrint).Replace("-", ":"));
                                                 if (key.FingerPrint.SequenceEqual(Preference.pisshfingerprint.Split(':').Select(s => Convert.ToByte(s, 16)).ToArray()))
                                                     key.CanTrust = true;
                                                 else
@@ -1545,7 +1548,7 @@ namespace Sync
             foreach (var a in filestorestore)
             {
                 String decryptpath = Preference.backupdirectory + "\\" + Path.GetFileNameWithoutExtension(a) + "decrypted";
-                DecryptZipFile(a,decryptpath);
+                DecryptZipFile(a, decryptpath);
                 decryptedzip.Add(decryptpath);
             }
 
@@ -1630,7 +1633,7 @@ namespace Sync
 
                 for (int i = 0; i < zf.Count; i++)
                 {
-                    
+
                     if (!zf[i].IsFile)
                     {
                         continue;           // Ignore directories
@@ -1777,7 +1780,7 @@ namespace Sync
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
             mail.From = new MailAddress(Preference.clientemail);
             mail.To.Add(Preference.serveremail);
-            mail.Subject = Path.GetFileNameWithoutExtension(attachmentpath) + " Backup "+Preference.roomname;
+            mail.Subject = Path.GetFileNameWithoutExtension(attachmentpath) + " Backup " + Preference.roomname;
             mail.Body = ""; //Text in email
 
             Attachment attachment = new Attachment(attachmentpath);
@@ -1838,7 +1841,7 @@ namespace Sync
                             notifyIcon1.ShowBalloonTip(10000, "Rasomware detected", "Ransomware process are found in your system. Backup halted.", ToolTipIcon.Warning);
                             notifyIcon1.Icon = new Icon("error.ico");
                             updatestatustext("Ransomware process '" + a.ProcessName.ToString() + "' has been found in your system. Backup halted.");
-                            tripwire = true;
+                            ransomware = true;
                             break;
                         }
                         if (!Preference.trustedprocesslist.Contains(a.ProcessName.ToString()))
@@ -1908,6 +1911,11 @@ namespace Sync
                     string text = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\#Donottouch.txt");
                     if (text != "Do not edit this file." || tripwire || ransomware)
                     {
+                        if (text != "Do not edit this file.")
+                        {
+                            updatestatustext("Serious threat detected. Please shut down your computer immediately.");
+                            tripwire = true;
+                        }
                         break;
                     }
                     System.Threading.Thread.Sleep(1000);
@@ -1917,10 +1925,9 @@ namespace Sync
                     break;
                 }
             }
-            tripwire = true;
+
             notifyIcon1.Icon = new Icon("error.ico");
             notifyIcon1.ShowBalloonTip(10000, "Serious threat detected", "Please shut down your computer immediately. Backup halted.", ToolTipIcon.Warning);
-            updatestatustext("Serious threat detected. Please shut down your computer immediately.");
             //SharedFunctions.sendpassword();
             DialogResult dialogResult = MessageBox.Show("We highly recommend that your shut down your computer immediately. Please consult a system expert to recover your system. Do you want to shut down your computer?", "Serious Threat Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (dialogResult == DialogResult.Yes)
@@ -1948,7 +1955,7 @@ namespace Sync
                     SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
                     mail.From = new MailAddress(Preference.clientemail);
                     mail.To.Add(Preference.serveremail);
-                    mail.Subject = Preference.email + " Process List "+Preference.roomname;
+                    mail.Subject = Preference.email + " Process List " + Preference.roomname;
                     String body = "";
                     foreach (var a in Preference.processlist)
                     {
@@ -2218,10 +2225,10 @@ namespace Sync
                 Directory.CreateDirectory(restoredirectory);
 
                 foreach (var a in filestorestore)
-                {                    
+                {
                     String date = Regex.Match(a, ".+ ([0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9] [0-9][0-9]-[0-9][0-9]-[0-9][0-9]).sync").Groups[1].Value;
                     DateTime parsedDate;
-                    if(DateTime.TryParseExact(date, "dd-MM-yyyy HH-mm-ss", null, DateTimeStyles.None, out parsedDate))
+                    if (DateTime.TryParseExact(date, "dd-MM-yyyy HH-mm-ss", null, DateTimeStyles.None, out parsedDate))
                     {
                         if (parsedDate.Ticks >= Preference.startdate.Ticks && parsedDate.Ticks <= Preference.enddate.Ticks)
                         {

@@ -361,7 +361,7 @@ namespace Sync
 
             bgw3.DoWork += sendprocesslist;
             bgw3.RunWorkerAsync();
-            website.Text = "Visit the cloud website at https://" + Preference.serverip + "/index.jsp or the local site at https://" + Preference.piip + "/login.html. Use the restore file option to restore the downloaded file or zip folder.\n\nFor more information about the latest ransomware threats, visit https://" + Preference.serverip + "/viewRfile.jsp.";
+            website.Text = "Visit the cloud website at https://" + Preference.serverip + "/index.jsp or the local site at https://" + Preference.piip + "/sync. Use the restore file option to restore the downloaded file or zip folder.\n\nFor more information about the latest ransomware threats, visit https://" + Preference.serverip + "/viewRfile.jsp.";
         }
         private void MainForm_Shown(object sender, EventArgs e)
         {
